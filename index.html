@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工业机器人 ROS 2 远程技术支持 · Nav2 / MoveIt2 / CAN 接入</title>
+<meta name="description" content="工业机器人一线的 ROS 2 远程技术支持：Nav2 / SLAM 调参、MoveIt2 配置、CAN 设备接入、URDF/TF 排查、国产板卡 ROS 2 环境移植。按小时计费，先聊 10 分钟判断能不能做。">
+<meta name="keywords" content="ROS2,远程支持,Nav2,SLAM,MoveIt2,CAN,ros2_control,工业机器人,TF,URDF,Ubuntu,arm64">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0d1117; --panel: #161b22; --line: rgba(255,255,255,.09);
+    --fg: #e6edf3; --muted: #8b949e; --blue: #58a6ff; --green: #7ee787;
+  }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: -apple-system, "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+    line-height: 1.75; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  header { padding: 72px 0 56px; border-bottom: 1px solid var(--line); position: relative; overflow: hidden; }
+  header::after {
+    content: ''; position: absolute; right: -160px; top: -220px;
+    width: 560px; height: 560px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(88,166,255,.16), transparent 68%);
+    pointer-events: none;
+  }
+  .tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--blue); letter-spacing: 1px;
+    border: 1px solid rgba(88,166,255,.4); border-radius: 999px;
+    padding: 6px 14px; background: rgba(88,166,255,.07); margin-bottom: 26px;
+  }
+  .tag i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; }
+  h1 { font-size: 44px; line-height: 1.25; font-weight: 800; letter-spacing: -.5px; }
+  h1 span { background: linear-gradient(92deg, var(--blue), #38bdf8 55%, var(--green)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lead { margin-top: 20px; font-size: 17px; color: var(--muted); max-width: 640px; }
+
+  section { padding: 48px 0; border-bottom: 1px solid var(--line); }
+  h2 { font-size: 15px; letter-spacing: 3px; color: var(--muted); font-weight: 600; margin-bottom: 26px; text-transform: uppercase; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .item { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; font-size: 15px; }
+  .item b { display: block; font-size: 15px; margin-bottom: 4px; }
+  .item small { color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; padding: 16px 14px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 500; font-size: 13px; letter-spacing: 1px; }
+  td.price { color: var(--green); font-weight: 700; font-size: 17px; white-space: nowrap; }
+
+  .note {
+    margin-top: 24px; background: rgba(63,185,80,.09);
+    border-left: 4px solid #3fb950; border-radius: 0 8px 8px 0;
+    padding: 16px 20px; font-size: 15px;
+  }
+  .warn { background: rgba(248,81,73,.07); border-left-color: #f85149; }
+
+  .proof { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 24px 26px; font-size: 15px; color: var(--muted); }
+  .proof b { color: var(--fg); }
+  .proof a { color: var(--blue); text-decoration: none; }
+  .proof a:hover { text-decoration: underline; }
+
+  .contact { text-align: center; padding: 64px 0 80px; border: 0; }
+  .contact h2 { margin-bottom: 18px; }
+  .contact p { color: var(--muted); font-size: 15px; margin-bottom: 26px; }
+  .btn {
+    display: inline-block; background: var(--blue); color: #08131f;
+    font-weight: 700; font-size: 16px; text-decoration: none;
+    padding: 14px 34px; border-radius: 9px;
+  }
+
+  footer { border-top: 1px solid var(--line); padding: 28px 0 48px; color: #6e7681; font-size: 13px; text-align: center; }
+
+  @media (max-width: 640px) {
+    header { padding: 48px 0 40px; }
+    h1 { font-size: 30px; }
+    .lead { font-size: 15px; }
+    th:nth-child(3), td:nth-child(3) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="tag"><i></i>接单中 · 远程优先</div>
+    <h1>工业机器人<br><span>ROS 2 远程技术支持</span></h1>
+    <p class="lead">
+      一线交付工程师。做过工程机械远程操控改造、AGV 与机械臂部署。按问题收费，不卖课、不接代做。
+    </p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>能解决的问题</h2>
+    <div class="grid">
+      <div class="item"><b>Nav2 / SLAM</b><small>建图漂、定位丢、代价地图不对、参数调不通</small></div>
+      <div class="item"><b>MoveIt2</b><small>配置生成、抓取抖动、规划失败、碰撞体不对</small></div>
+      <div class="item"><b>URDF / xacro</b><small>建模、TF 树错乱、RViz 显示异常</small></div>
+      <div class="item"><b>CAN / 串口 / 网口</b><small>设备接进 ROS 2 没数据、时序不对、驱动报错</small></div>
+      <div class="item"><b>Gazebo / Isaac Sim</b><small>复现 demo 失败、模型加载报错、传感器不输出</small></div>
+      <div class="item"><b>国产板卡环境</b><small>arm64 移植、平板 / 树莓派 / 工控机跑 ROS 2</small></div>
+      <div class="item"><b>ros2_control</b><small>硬件接口对接、控制器切换、状态发布</small></div>
+      <div class="item"><b>工程化</b><small>Docker 化环境、CI 构建、多机通信配置</small></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>收费</h2>
+    <table>
+      <tr><th>服务</th><th>价格</th><th>说明</th></tr>
+      <tr><td>远程排障</td><td class="price">200 元 / 小时</td><td>2 小时起，按实际时长结算</td></tr>
+      <tr><td>小单包干</td><td class="price">800 – 2000 元 / 单</td><td>3–5 个工作日，开工前写死验收标准</td></tr>
+      <tr><td>月度陪跑</td><td class="price">2000 元 / 月</td><td>4 次远程 + 随时答疑，限一个项目</td></tr>
+      <tr><td>现场调试</td><td class="price">1500 元 / 天</td><td>差旅实报，需提前 3 天预约</td></tr>
+    </table>
+    <div class="note">先聊 10 分钟判断能不能做。做不了我直说，不收钱。</div>
+    <div class="note warn">不接：毕设代做、整包 AGV / 巡检项目（需企业资质）。</div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>技术背书</h2>
+    <div class="proof">
+      开源项目 <b>《工业机器人全栈学习系统》</b>：S0–S10 共 11 个阶段、<b>76 节课</b>，覆盖 ROS 2 基础、TF/URDF、Nav2、SLAM、MoveIt2、CAN 总线、ros2_control 与工程化部署。
+      三端离线产物（Windows / Linux / Android），<b>69 个课程实验全自动回归通过</b>，命令与检查项全部真实可复现，不伪造实验成功。
+      <br><br>
+      <a href="https://github.com/bietou123/ros-fullstack-learning" target="_blank" rel="noopener">github.com/bietou123/ros-fullstack-learning</a>
+    </div>
+  </div>
+</section>
+
+<section class="contact">
+  <div class="wrap">
+    <h2>联系</h2>
+    <p>把你的现象、报错、已经试过的命令发过来，我先判断能不能做。</p>
+    <a class="btn" href="https://github.com/bietou123/ros-fullstack-learning/issues/new" target="_blank" rel="noopener">提交问题</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">工业机器人 ROS 2 远程技术支持 · 按问题收费，不谈虚的</div>
+</footer>
+
+</body>
+</html>
