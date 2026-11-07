@@ -211,3 +211,11 @@ msg = self.bus.recv(timeout=0.01)   # 不加超时，总线一静默就永久阻
 ---
 
 *文中过滤语义、vcan 收发数据均来自 QEMU Ubuntu 24.04 + vcan0 实测。真实总线时序、终端电阻、错误计数仍需实车验证。*
+
+---
+
+<div style="margin-top:40px;padding:22px 24px;border:1px solid #d0d7de;border-radius:10px;background:#f6f8fa">
+<strong>CAN 设备接不进 ROS 2？</strong><br>
+不管是 CANopen 还是私有报文，可以发我一份手册页和 <code>candump -L</code> 记录，我做远程排查。Nav2 / SLAM 调参、MoveIt2 配置、CAN 接入、URDF/TF 排查、国产板卡 arm64 移植，按小时计费，先聊 10 分钟判断能不能做。<br><br>
+<a href="https://bietou123.github.io/ros-support/">看服务与报价 →</a>
+</div>
