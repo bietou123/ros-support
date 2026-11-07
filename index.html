@@ -148,6 +148,10 @@
         <b>CAN 设备接入 ROS 2：<code>~</code> 不是 ID 区间</b>
         <small>vcan 实测 candump 过滤语义，<code>600~7FF</code> 会放行除 0x600 外的所有帧。附 ros2_socketcan / ros2_canopen / 自写桥接三种接法对比与 100Hz 控制环清单。</small>
       </a>
+      <a class="item" style="text-decoration:none;color:inherit;display:block" href="/ros-support/posts/nav2-wont-start.html">
+        <b>Nav2 起不来？先看 <code>base_footprint</code></b>
+        <small>9 个 lifecycle 节点逐个查、<code>map→odom</code> 断链定位、<code>ros2 lifecycle get</code> 卡死、<code>default_server_timeout</code> 20 ms 在工控机上为什么太激进。</small>
+      </a>
     </div>
   </div>
 </section>
