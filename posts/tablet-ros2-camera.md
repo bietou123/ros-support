@@ -292,3 +292,11 @@ ros2 run camera_calibration cameracalibrator --size 8x6 --square 0.025 \
 ---
 
 *文中所有数据来自真实设备实测，未做美化。遇到同类问题（Nav2、MoveIt2、CAN 设备接入、ROS 2 环境移植）可以留言，能远程看的我直接看。*
+
+---
+
+<div style="margin-top:40px;padding:22px 24px;border:1px solid #d0d7de;border-radius:10px;background:#f6f8fa">
+<strong>你的板子也跑不起来？</strong><br>
+把 <code>dmesg | grep -i csi</code>、<code>ls /sys/class/video4linux/</code> 和设备树节点发过来，我先判断是内核层还是应用层问题。Nav2 / SLAM 调参、MoveIt2 配置、CAN 接入、URDF/TF 排查、国产板卡 arm64 移植，按小时计费，先聊 10 分钟判断能不能做。<br><br>
+<a href="https://bietou123.github.io/ros-support/">看服务与报价 →</a>
+</div>
