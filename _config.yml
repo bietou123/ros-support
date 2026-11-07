@@ -1,0 +1,11 @@
+title: 工业机器人 ROS 2 远程技术支持
+description: Nav2 / SLAM 调参、MoveIt2 配置、CAN 设备接入、URDF/TF 排查、国产板卡 ROS 2 环境移植。按小时计费，先聊 10 分钟判断能不能做。
+lang: zh-CN
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+defaults:
+  - scope:
+      path: "posts"
+    values:
+      layout: default
