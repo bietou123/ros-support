@@ -206,3 +206,11 @@ number_of_recoveries: 0
 ---
 
 *文中节点状态、动作服务器数量、导航闭环时序与代价地图尺寸均来自 `ros:humble-nav2` 容器实测。真实底盘、真实传感器与现场参数仍需实车验证，调参结论不能直接照搬。*
+
+---
+
+<div style="margin-top:40px;padding:22px 24px;border:1px solid #d0d7de;border-radius:10px;background:#f6f8fa">
+<strong>照着查还是不通？</strong><br>
+可以把你的 <code>params.yaml</code>、<code>tf2_echo</code> 输出和 lifecycle 状态发过来，我做远程排查。Nav2 / SLAM 调参、MoveIt2 配置、CAN 接入、URDF/TF 排查、国产板卡 arm64 移植，按小时计费，先聊 10 分钟判断能不能做。<br><br>
+<a href="https://bietou123.github.io/ros-support/">看服务与报价 →</a>
+</div>
