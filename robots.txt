@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bietou123.github.io/ros-support/sitemap.xml
